@@ -11,7 +11,10 @@ class Home extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-          startDate: new Date()
+          startDate: new Date(),
+          inputValueCalorifer: '',
+          inputValueLumina: '',
+          inputValueStropitoare: ''
       };
   }
 
@@ -21,6 +24,36 @@ class Home extends React.Component {
       });
       debugger;
   }
+
+  updateInputValueCalorifer = (event) => {
+      this.setState({
+          inputValueCalorifer: event.target.value
+      })
+  }
+
+    updateInputValueLumina = (event) => {
+        this.setState({
+            inputValueLumina: event.target.value
+        })
+    }
+
+    updateInputValueStropitoare = (event) => {
+        this.setState({
+            inputValueStropitoare: event.target.value
+        })
+    }
+
+    handleCaloriferChange = () => {
+      alert(this.state.inputValueCalorifer);
+    }
+
+    handleLuminaChange = () => {
+        alert(this.state.inputValueLumina);
+    }
+
+    handleStropitoareChange = () => {
+        alert(this.state.inputValueStropitoare);
+    }
 
     render() {
         return (
@@ -36,10 +69,40 @@ class Home extends React.Component {
                         <button className='generateButton'>Genereaza Date</button>
                     </div>
                     <div className='rightHalf'>
-                        <div>Rezultate</div>
+                        <div className='textArea'>Rezultate</div>
                     </div>
                 </div>
                 <div className='bottom'>
+                    <div>
+                        <p className='text'>Calorifer: </p>
+                        <input
+                            className='input'
+                            value={this.state.inputValueCalorifer}
+                            placeholder={'introdu valoare'}
+                            onChange={this.updateInputValueCalorifer}
+                        />
+                        <button className='input' onClick={this.handleCaloriferChange}>Trimite</button>
+                    </div>
+                    <div>
+                        <p className='text'>Lumina: </p>
+                        <input
+                            className='input'
+                            value={this.state.inputValueLumina}
+                            placeholder={'introdu valoare'}
+                            onChange={this.updateInputValueLumina}
+                        />
+                        <button className='input' onClick={this.handleLuminaChange}>Trimite</button>
+                    </div>
+                    <div>
+                        <p className='text'>Stropitoare: </p>
+                        <input
+                            className='input'
+                            value={this.state.inputValueStropitoare}
+                            placeholder={'introdu valoare'}
+                            onChange={this.updateInputValueStropitoare}
+                        />
+                        <button className='input' onClick={this.handleStropitoareChange}>Trimite</button>
+                    </div>
 
                 </div>
             </div>
