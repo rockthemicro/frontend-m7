@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 class Home extends React.Component {
 
+    url = 'http://192.168.4.1:80/';
 
   constructor(props) {
       super(props);
@@ -44,15 +45,18 @@ class Home extends React.Component {
     }
 
     handleCaloriferChange = () => {
-      alert(this.state.inputValueCalorifer);
+      axios.get(this.url + 'calorifer=' + this.state.inputValueCalorifer);
+      //alert(this.state.inputValueCalorifer);
     }
 
     handleLuminaChange = () => {
-        alert(this.state.inputValueLumina);
+        axios.get(this.url + 'lumini=' + this.state.inputValueLumina);
+        //alert(this.state.inputValueLumina);
     }
 
     handleStropitoareChange = () => {
-        alert(this.state.inputValueStropitoare);
+        axios.get(this.url + 'stropit=' + this.state.inputValueStropitoare);
+        //alert(this.state.inputValueStropitoare);
     }
 
     render() {

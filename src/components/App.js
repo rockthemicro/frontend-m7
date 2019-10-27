@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor(props){
     super(props);
 
-    this.state = {page: 2}
+    this.state = {page: 1}
   }
 
   changePage = (page) => {

@@ -5,19 +5,58 @@ import '../style/Login.css';
 
 class Login extends React.Component {
 
+    constructor(props) {
+        super(props);
 
-    handleLogin = () => {
+        this.handleLogin = this.handleLogin.bind(this);
+        this.handleSignup = this.handleSignup.bind(this);
 
-        /*
-        let url = 'http://192.168.4.1:80/api/muie/muie?param=3';
-        axios.get(url, {})
-            .then(response => {
-                alert('ok');
+        this.state = {
+            userName: "",
+            password: ""
+        }
+    }
+
+    handleLogin = (e) => {
+        e.preventDefault();
+
+        let url = 'http://localhost:8080/api/login?userName=' + this.state.userName + '&password=' + this.state.password;
+        axios.get(url)
+            .then((response) => {
+                if (response.data === "OK")
+                    this.props.changePage(2);
+                else
+                    alert("Invalid user and/or password");
             })
-            .catch(() => {alert('Not OK')});
-            */
+            .catch(() => {
+                alert('Could not send request')
+            });
 
-        this.props.changePage(2);
+    }
+
+    handleSignup = (e) => {
+        e.preventDefault();
+
+        let url = 'http://localhost:8080/api/signup?userName=' + this.state.userName + '&password=' + this.state.password;
+        axios.get(url)
+            .then(response => {
+                if (response.data === "OK")
+                    alert("User successfully created");
+                else
+                    alert("Could not create this user");
+            })
+            .catch(() => {
+                alert('Could not send request')
+            });
+
+    }
+
+    updateInputValueUserName = (event) => {
+        this.setState({userName: event.target.value});
+    }
+
+    updateInputValuePassword = (event) => {
+        this.setState({password: event.target.value});
     }
 
     render() {
@@ -27,11 +66,11 @@ class Login extends React.Component {
                 <form className='loginForm'>
                     <div className='loginInput'>
                         <label className='label'>User:</label>
-                        <input className='loginBox'/>
+                        <input className='loginBox' onChange={this.updateInputValueUserName}/>
                     </div>
                     <div className='loginInput'>
                         <label className='label'>Parola:</label>
-                        <input className='loginBox' type="password"/>
+                        <input className='loginBox' type="password" onChange={this.updateInputValuePassword}/>
                     </div>
                     <button className='loginButton' onClick={this.handleLogin}>Login</button>
                 </form>
@@ -49,13 +88,13 @@ class Login extends React.Component {
                     </div>
                     <div className='signUpInput'>
                         <label className='label'>User*: </label>
-                        <input className='signUpBox'/>
+                        <input className='signUpBox' onChange={this.updateInputValueUserName}/>
                     </div>
                     <div className='signUpInput'>
                         <label className='label'>Parola*: </label>
-                        <input className='signUpBox' type="password"/>
+                        <input className='signUpBox' type="password" onChange={this.updateInputValuePassword}/>
                     </div>
-                    <button className='signUpButton' onClick={this.handleLogin}>Sign Up</button>
+                    <button className='signUpButton' onClick={this.handleSignup}>Sign Up</button>
                 </form>
             </div>
         )
