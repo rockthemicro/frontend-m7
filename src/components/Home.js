@@ -7,57 +7,74 @@ import "react-datepicker/dist/react-datepicker.css";
 
 class Home extends React.Component {
 
-    url = 'http://192.168.4.1:80/';
+    esp_url = 'http://192.168.4.1:80/';
+    backend_url = 'http://localhost:8080/api';
 
-  constructor(props) {
+    constructor(props) {
       super(props);
       this.state = {
           startDate: new Date(),
           inputValueCalorifer: '',
           inputValueLumina: '',
-          inputValueStropitoare: ''
+          inputValueStropitoare: '',
+          data: [],
       };
-  }
+    }
 
-  handleCalendarChange = (date) => {
+    handleCalendarChange = (date) => {
       this.setState({
           startDate: date
       });
-      debugger;
-  }
+    };
 
-  updateInputValueCalorifer = (event) => {
+    updateInputValueCalorifer = (event) => {
       this.setState({
           inputValueCalorifer: event.target.value
       })
-  }
+    };
 
     updateInputValueLumina = (event) => {
         this.setState({
             inputValueLumina: event.target.value
         })
-    }
+    };
 
     updateInputValueStropitoare = (event) => {
         this.setState({
             inputValueStropitoare: event.target.value
         })
-    }
+    };
 
     handleCaloriferChange = () => {
-      axios.get(this.url + 'calorifer=' + this.state.inputValueCalorifer);
+      axios.get(this.esp_url + 'calorifer=' + this.state.inputValueCalorifer);
       //alert(this.state.inputValueCalorifer);
-    }
+    };
 
     handleLuminaChange = () => {
-        axios.get(this.url + 'lumini=' + this.state.inputValueLumina);
+        axios.get(this.esp_url + 'lumini=' + this.state.inputValueLumina);
         //alert(this.state.inputValueLumina);
-    }
+    };
 
     handleStropitoareChange = () => {
-        axios.get(this.url + 'stropit=' + this.state.inputValueStropitoare);
+        axios.get(this.esp_url + 'stropit=' + this.state.inputValueStropitoare);
         //alert(this.state.inputValueStropitoare);
-    }
+    };
+
+    handleGenerateData = () => {
+        debugger;
+        axios.get(this.backend_url + '/getDataSince', {
+            params: {
+                date: this.state.startDate.toISOString()
+            }
+        }).then(response => {
+            this.setState({
+                data: response.data
+            });
+
+        }).catch(err => {
+            alert(err);
+        });
+    };
 
     render() {
         return (
@@ -70,10 +87,18 @@ class Home extends React.Component {
                             onChange={this.handleCalendarChange}
                             inline
                         />
-                        <button className='generateButton'>Genereaza Date</button>
+                        <button className='generateButton' onClick={this.handleGenerateData}>Genereaza Date</button>
                     </div>
                     <div className='rightHalf'>
-                        <div className='textArea'>Rezultate</div>
+                        <div className='textArea'>
+                            <span>Rezultate</span><br/>
+                            {this.state.data.map((elem) => (
+                                <div>
+                                    <span>{"Temperatura: " + elem.temp + "C, umiditate: " + elem.earthHum + "%, luminozitate: " + elem.light + "lux"}</span>
+                                    <br/>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <div className='bottom'>

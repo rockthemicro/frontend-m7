@@ -2,7 +2,6 @@ import React from 'react';
 import '../style/App.css';
 import Login from './Login.js';
 import Home from './Home.js';
-import { constants } from '../utils/utils.js';
 
 class App extends React.Component {
 
